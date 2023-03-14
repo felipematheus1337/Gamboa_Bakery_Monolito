@@ -16,7 +16,6 @@ public interface PagamentoService {
 
     void excluirPagamento(Long id);
 
-    void confirmarPagamento(Long id);
 
     void alteraStatus(Long id);
 

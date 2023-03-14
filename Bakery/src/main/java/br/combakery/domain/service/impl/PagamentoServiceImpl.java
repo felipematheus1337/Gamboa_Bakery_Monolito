@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class PagamentoServiceImpl implements PagamentoService {
@@ -59,13 +61,17 @@ public class PagamentoServiceImpl implements PagamentoService {
         repository.deleteById(id);
     }
 
-    @Override
-    public void confirmarPagamento(Long id) {
 
-    }
 
     @Override
     public void alteraStatus(Long id) {
+        Optional<Pagamento> pagamento = repository.findById(id);
 
+        if (!pagamento.isPresent()) {
+            throw new EntityNotFoundException();
+        }
+
+        pagamento.get().setStatus(Status.CONFIRMADO);
+        repository.save(pagamento.get());
     }
 }
