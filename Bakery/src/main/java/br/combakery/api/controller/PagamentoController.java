@@ -8,6 +8,8 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,6 +26,8 @@ public class PagamentoController {
 
     private final PagamentoServiceImpl service;
     private final PedidoServiceImpl pedidoService;
+
+    private final RabbitTemplate rabbitTemplate;
 
 
     @GetMapping
@@ -43,6 +47,8 @@ public class PagamentoController {
     public ResponseEntity<PagamentoDTO> cadastrar(@RequestBody @Valid PagamentoDTO dto, UriComponentsBuilder uriBuilder) {
         PagamentoDTO pagamento = service.criarPagamento(dto);
         URI endereco = uriBuilder.path("/pagamentos/{id}").buildAndExpand(pagamento.getId()).toUri();
+
+        rabbitTemplate.convertAndSend("pagamentos-ex", "",pagamento);
 
         return ResponseEntity.created(endereco).body(pagamento);
     }

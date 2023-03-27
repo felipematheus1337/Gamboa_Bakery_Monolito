@@ -10,7 +10,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "pedidos")
@@ -32,4 +34,7 @@ public class Pedido {
 
     @OneToMany(cascade=CascadeType.PERSIST, mappedBy="pedido")
     private List<ItemDoPedido> itens = new ArrayList<>();
+
+    @OneToMany(cascade=CascadeType.PERSIST, mappedBy="pedido")
+    Set<Avaliacao> avaliacoes = new HashSet<>();
 }
