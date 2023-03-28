@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class PedidoServiceImpl implements PedidoService {
 
     private final PedidoRepository repository;
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @Override
     public List<PedidoDTO> obterTodos() {

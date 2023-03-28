@@ -15,6 +15,8 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/avaliacao")
@@ -38,6 +40,22 @@ public class AvaliacaoController {
 
         return ResponseEntity.created(endereco).body(avaliacaoDTO);
     }
+
+    @GetMapping("/{pedidoId}")
+    public ResponseEntity<Object> pegarAvaliacoesDeUmPedido(@PathVariable Long pedidoId) {
+        List<AvaliacaoDTO> avaliacaoDTOList = service.listarAvaliacoesDeUmPedido(pedidoId)
+                .stream()
+                .map(x -> mapper.map(x, AvaliacaoDTO.class))
+                .toList();
+
+        return ResponseEntity.status(HttpStatus.OK).body(avaliacaoDTOList);
+    }
+
+   @GetMapping("/media/{pedidoId}")
+    public ResponseEntity<Object> pegarAMediaDeAvaliacoesDeUmPedido(@PathVariable Long pedidoId) {
+     var media = service.getMedia(pedidoId);
+     return ResponseEntity.status(HttpStatus.OK).body(media);
+   }
 
 
 }

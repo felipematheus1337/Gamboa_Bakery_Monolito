@@ -1,6 +1,7 @@
 package br.combakery.domain.entity;
 
 
+import br.combakery.api.converter.MediaConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -36,5 +37,6 @@ public class Pedido {
     private List<ItemDoPedido> itens = new ArrayList<>();
 
     @OneToMany(cascade=CascadeType.PERSIST, mappedBy="pedido")
+    @Convert(converter = MediaConverter.class)
     Set<Avaliacao> avaliacoes = new HashSet<>();
 }
