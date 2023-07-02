@@ -43,7 +43,6 @@ public class PagamentoServiceImpl implements PagamentoService {
     public PagamentoDTO criarPagamento(PagamentoDTO dto) {
         Pagamento pagamento = modelMapper.map(dto, Pagamento.class);
         pagamento.setStatus(Status.CRIADO);
-        repository.save(pagamento);
 
         return modelMapper.map(pagamento, PagamentoDTO.class);
     }

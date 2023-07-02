@@ -51,10 +51,17 @@ public class PedidoController {
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<PedidoDTO> atualizaStatus(@PathVariable Long id, @RequestBody StatusDTO status){
+    public ResponseEntity<String> atualizaStatus(@PathVariable Long id, @RequestBody StatusDTO status){
         PedidoDTO dto = service.atualizaStatus(id, status);
 
-        return ResponseEntity.ok(dto);
+        if(dto != null) {
+            StringBuilder message = new StringBuilder();
+            message.append("Status do pedido Atualizado para: ");
+            message.append(status.getStatus().toString());
+            return ResponseEntity.ok(message.toString());
+        }
+
+        return ResponseEntity.internalServerError().build();
     }
 
 }

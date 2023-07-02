@@ -65,11 +65,11 @@ public class PagamentoController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}/confirmar")
-    @CircuitBreaker(name = "atualizaPedido", fallbackMethod = "pagamentoAutorizadoComIntegracaoPendente")
-    public void confirmarPagamento(@PathVariable @NotNull Long id){
-        pedidoService.aprovaPagamentoPedido(id);
-    }
+        @PatchMapping("/{id}/confirmar")
+        @CircuitBreaker(name = "atualizaPedido", fallbackMethod = "pagamentoAutorizadoComIntegracaoPendente")
+        public void confirmarPagamento(@PathVariable @NotNull Long id){
+            pedidoService.aprovaPagamentoPedido(id);
+        }
 
     public void pagamentoAutorizadoComIntegracaoPendente(Long id, Exception e){
         service.alteraStatus(id);

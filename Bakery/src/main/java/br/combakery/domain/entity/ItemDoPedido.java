@@ -29,4 +29,10 @@ public class ItemDoPedido {
 
     @ManyToOne(optional=false)
     private Pedido pedido;
+
+    public ItemDoPedido(Long id, @NotNull Integer quantidade, String descricao) {
+        this.id = id;
+        this.quantidade = quantidade;
+        this.descricao = descricao;
+    }
 }

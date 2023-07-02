@@ -1,6 +1,8 @@
 package br.combakery.api.dto;
 
+import br.combakery.domain.entity.Endereco;
 import br.combakery.domain.entity.Status;
+import br.combakery.domain.entity.StatusPedido;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,7 @@ public class PedidoDTO {
 
     private Long id;
     private LocalDateTime dataHora;
-    private Status status;
+    private StatusPedido status;
     private List<ItemDoPedidoDTO> itens = new ArrayList<>();
+    private Endereco endereco;
 }

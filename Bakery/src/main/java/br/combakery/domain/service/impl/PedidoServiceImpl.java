@@ -3,9 +3,11 @@ package br.combakery.domain.service.impl;
 
 import br.combakery.api.dto.PedidoDTO;
 import br.combakery.api.dto.StatusDTO;
+import br.combakery.domain.entity.Endereco;
 import br.combakery.domain.entity.Pedido;
 import br.combakery.domain.entity.Status;
 import br.combakery.domain.entity.StatusPedido;
+import br.combakery.domain.repository.EnderecoRepository;
 import br.combakery.domain.repository.PedidoRepository;
 import br.combakery.domain.service.PedidoService;
 import br.combakery.exception.BusinessException;
@@ -24,6 +26,7 @@ public class PedidoServiceImpl implements PedidoService {
 
     private final PedidoRepository repository;
     private final ModelMapper modelMapper;
+    private final EnderecoRepository enderecoRepository;
 
     @Override
     public List<PedidoDTO> obterTodos() {
@@ -43,12 +46,14 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public PedidoDTO criarPedido(PedidoDTO dto) {
         Pedido pedido = modelMapper.map(dto, Pedido.class);
+        Endereco end = enderecoRepository.save(dto.getEndereco());
         pedido.setDataHora(LocalDateTime.now());
+        pedido.setEndereco(end);
         pedido.setStatus(StatusPedido.REALIZADO);
         pedido.getItens().forEach(item -> item.setPedido(pedido));
         Pedido salvo = repository.save(pedido);
 
-        return modelMapper.map(pedido, PedidoDTO.class);
+        return modelMapper.map(salvo, PedidoDTO.class);
     }
 
     @Override

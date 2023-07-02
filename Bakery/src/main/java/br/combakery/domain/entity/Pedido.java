@@ -30,7 +30,7 @@ public class Pedido {
     @NotNull
     private LocalDateTime dataHora;
 
-    @NotNull @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private StatusPedido status;
 
     @OneToMany(cascade=CascadeType.PERSIST, mappedBy="pedido")
@@ -39,4 +39,13 @@ public class Pedido {
     @OneToMany(cascade=CascadeType.PERSIST, mappedBy="pedido")
     @Convert(converter = MediaConverter.class)
     Set<Avaliacao> avaliacoes = new HashSet<>();
+
+    @OneToOne
+    private Endereco endereco;
+
+    public Pedido(Long id, @NotNull LocalDateTime dataHora, StatusPedido status) {
+        this.id = id;
+        this.dataHora = dataHora;
+        this.status = status;
+    }
 }
